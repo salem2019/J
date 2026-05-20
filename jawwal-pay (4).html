@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#5cb8b2">
+<title>Jawwal Pay</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --teal:#5cb8b2;--green:#8dc63f;--yellow:#c8e06a;--purple:#7b4fa6;
+  --grad-hero:linear-gradient(160deg,#8ecdc8 0%,#5cb8b2 50%,#4aa09a 100%);
+  --grad-banner:linear-gradient(135deg,#7b4fa6 0%,#5cb8b2 100%);
+  --grad-btn:linear-gradient(90deg,#8dc63f 0%,#c8e06a 100%);
+  --grad-top:linear-gradient(150deg,#9b72c8 0%,#7b4fa6 40%,#5cb8b2 100%);
+  --gray:#f2f4f8;--gray-mid:#b0b8c8;
+  --text:#1a1a2e;--sub:#8896a8;--white:#fff;
+  --shadow:0 2px 16px rgba(0,0,0,0.08);
+  --sbtn:0 4px 18px rgba(141,198,63,0.45);
+  --r:30px;--ri:14px;
+}
+html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hidden;direction:rtl}
+#app{width:100%;max-width:430px;height:100dvh;margin:0 auto;background:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+
+/* LOADER */
+#loader{position:absolute;inset:0;background:rgba(255,255,255,0.93);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;backdrop-filter:blur(2px)}
+#loader.show{display:flex}
+.spin{width:46px;height:46px;border:3.5px solid #e0e8f0;border-top-color:var(--teal);border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ldr-txt{font-size:13px;font-weight:700;color:var(--sub)}
+
+/* PAGES */
+.page{display:none;flex-direction:column;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.page.active{display:flex}
+.page::-webkit-scrollbar{display:none}
+
+/* ---- LOGIN ---- */
+.l-hero{background:var(--grad-hero);padding:env(safe-area-inset-top,44px) 24px 52px;position:relative;overflow:hidden;flex-shrink:0}
+.l-hero::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.12);top:-80px;left:-60px}
+.l-hero::after{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.08);bottom:20px;right:-40px}
+.l-lang{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:rgba(0,0,0,0.5);font-weight:600;margin-bottom:16px;cursor:pointer;position:relative;z-index:1}
+.l-text{position:relative;z-index:1}
+.l-text h1{font-size:34px;font-weight:900;color:#fff;line-height:1;text-shadow:0 2px 12px rgba(0,0,0,0.1);margin-bottom:10px}
+.l-text p{font-size:14px;font-weight:600;color:rgba(0,0,0,0.6);line-height:1.55}
+.l-text strong{color:rgba(0,0,0,0.75)}
+.l-card{background:#fff;border-radius:24px 24px 0 0;margin-top:-18px;padding:24px 18px 24px;flex:1;position:relative;z-index:2;overflow-y:auto}
+.l-card::-webkit-scrollbar{display:none}
+.fw{background:var(--gray);border-radius:var(--ri);padding:11px 14px;margin-bottom:11px;display:flex;align-items:center;border:1.5px solid transparent;transition:border-color .2s}
+.fw:focus-within{border-color:var(--teal);background:#fff}
+.fi{flex:1}
+.fi label{font-size:10px;color:var(--sub);display:block;margin-bottom:1px;font-weight:600}
+.fi input{width:100%;border:none;background:transparent;font-family:'Cairo',sans-serif;font-size:14px;color:var(--text);font-weight:600;outline:none;direction:ltr;text-align:right}
+.fi input::placeholder{color:var(--gray-mid);font-weight:400;direction:rtl;text-align:right}
+.fdiv{width:1px;height:24px;background:#d0d8e4;margin:0 10px;flex-shrink:0}
+.fpfx{font-size:13px;color:var(--text);font-weight:700;flex-shrink:0;direction:ltr}
+.pw-wrap{border:1.5px solid var(--teal);border-radius:var(--ri);padding:12px 14px;margin-bottom:5px;background:#fff;display:flex;align-items:center}
+.pw-wrap input{flex:1;border:none;background:transparent;font-family:'Cairo',sans-serif;font-size:14px;color:var(--text);outline:none;text-align:right}
+.pw-wrap input::placeholder{color:var(--gray-mid)}
+.forgot{color:var(--green);font-size:12px;font-weight:700;cursor:pointer;margin-bottom:14px;display:block;text-align:right}
+.lerr{color:#e53935;font-size:12px;font-weight:600;text-align:right;margin-bottom:10px;display:none}
+.lacts{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.cir{width:48px;height:48px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:var(--sbtn)}
+.btn{background:var(--grad-btn);border:none;border-radius:var(--r);padding:13px 20px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;color:#fff;cursor:pointer;box-shadow:var(--sbtn);width:100%;transition:transform .15s,box-shadow .15s}
+.btn:active{transform:scale(.98);box-shadow:none}
+.btn.flex1{flex:1}
+.btn-out{flex:1;border:2px solid var(--green);border-radius:var(--r);padding:13px;background:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;color:var(--green);cursor:pointer}
+.qrrow{display:flex;justify-content:space-around;margin-bottom:20px}
+.qri{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.qrico{width:56px;height:56px;border-radius:50%;background:var(--gray);display:flex;align-items:center;justify-content:center}
+.qrico.gold{background:linear-gradient(135deg,#f7d060,#e8960a)}
+.qri span{font-size:11px;font-weight:700;color:var(--green);text-align:center;max-width:70px;line-height:1.3}
+.reg{text-align:center;font-size:13px;color:var(--sub);font-weight:500}
+.reg a{color:var(--green);font-weight:800;cursor:pointer}
+
+/* ---- HOME ---- */
+.htop{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 6px}
+.ham{display:flex;flex-direction:column;gap:5px;cursor:pointer}
+.ham span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px}
+.ava{width:38px;height:38px;border-radius:50%;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--gray)}
+.huser{text-align:center;padding:6px 16px 12px}
+.huser .greet{font-size:14px;font-weight:700;color:var(--text)}
+.huser .uname{font-size:18px;font-weight:900;color:var(--text);margin:2px 0 8px}
+.huser .blbl{font-size:11px;color:var(--sub);font-weight:500;margin-bottom:3px}
+.huser .bal{font-size:38px;font-weight:900;color:var(--text);display:flex;align-items:flex-start;justify-content:center;gap:6px}
+.huser .bal .ils{font-size:17px;color:var(--sub);font-weight:700;margin-top:8px}
+.aban{margin:0 13px 14px;background:var(--grad-banner);border-radius:18px;display:flex;align-items:stretch;overflow:hidden}
+.abtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:15px 8px;cursor:pointer;color:#fff}
+.abtn:active{background:rgba(255,255,255,0.08)}
+.abtn span{font-size:14px;font-weight:800}
+.asep{width:1px;background:rgba(255,255,255,0.25);margin:16px 0}
+.stit{font-size:17px;font-weight:900;color:var(--text);padding:0 15px 11px;text-align:right}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 13px}
+.scard{background:#fff;border-radius:15px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;box-shadow:var(--shadow);border:1px solid #f0f2f6;transition:transform .15s}
+.scard:active{transform:scale(.95)}
+.sico{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.ibg{background:linear-gradient(145deg,#1c1c1c,#2e2e2e);flex-direction:column;gap:0}
+.ibolt{font-size:18px;color:#f0a500;line-height:1}
+.ilbl{font-size:9px;font-weight:900;color:#f0a500;font-family:'Cairo',sans-serif;letter-spacing:.5px}
+.sname{font-size:11px;font-weight:700;color:var(--text);text-align:center;line-height:1.3}
+.bnav{display:flex;align-items:center;background:#fff;border-top:1px solid #edf0f5;padding:5px 0 env(safe-area-inset-bottom,8px);margin-top:auto;position:sticky;bottom:0;z-index:50}
+.ntab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:var(--sub);cursor:pointer;padding:4px 0}
+.ntab.active{color:var(--purple)}
+.ntab svg{width:19px;height:19px}
+.nqw{flex:1.2;display:flex;justify-content:center}
+.nq{width:56px;height:56px;border-radius:50%;background:var(--gray);border:3px solid #fff;box-shadow:0 -2px 12px rgba(0,0,0,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;margin-top:-15px}
+.qlbl{font-size:9px;font-weight:900;color:var(--text)}
+
+/* ---- PAGE TOPBAR ---- */
+.ptop{background:var(--grad-top);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.pbk{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:background .2s}
+.pbk:active{background:rgba(255,255,255,0.15)}
+.ptit{font-size:15px;font-weight:800;color:#fff}
+
+/* ---- INNER CARD ---- */
+.icard{background:#fff;border-radius:20px 20px 0 0;flex:1;padding:18px 15px;overflow-y:auto}
+.icard::-webkit-scrollbar{display:none}
+.ititl{font-size:16px;font-weight:900;color:var(--text);margin-bottom:13px;text-align:right}
+.srch{background:#eef1f8;border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.srch input{flex:1;border:none;background:transparent;font-family:'Cairo',sans-serif;font-size:13px;color:var(--text);outline:none;text-align:right}
+.srch input::placeholder{color:var(--sub)}
+.bcrd{background:#fff;border-radius:14px;padding:12px;margin-bottom:9px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;border:1px solid #f0f2f6;position:relative}
+.binf{text-align:right}
+.bnm{font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px}
+.bph{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;direction:ltr;text-align:right}
+.bbk{font-size:11px;font-weight:600;color:var(--sub)}
+.dts{display:flex;flex-direction:column;align-items:center;gap:3.5px;cursor:pointer;padding:6px 8px;position:relative}
+.dts span{width:5px;height:5px;border-radius:50%;background:var(--green);display:block}
+.dmn{position:absolute;left:0;top:calc(100% + 4px);background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.16);z-index:200;min-width:148px;overflow:hidden;display:none;animation:fdwn .18s ease}
+@keyframes fdwn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dmn.open{display:block}
+.dmi{padding:14px 18px;font-size:13px;font-weight:700;color:var(--text);cursor:pointer;text-align:right;border-bottom:1px solid #f0f2f6;transition:background .15s}
+.dmi:last-child{border:none}
+.dmi:hover{background:#f7f9fc}
+.sbtm{padding:13px 15px env(safe-area-inset-bottom,13px);background:#fff;flex-shrink:0}
+.finp{border:1.5px solid var(--teal);border-radius:var(--ri);padding:13px 15px;margin-bottom:12px;background:#fff;width:100%;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;color:var(--text);outline:none;text-align:right;direction:rtl;display:block}
+.finp::placeholder{color:var(--sub);font-weight:400}
+.rgrp{display:flex;align-items:center;justify-content:flex-end;gap:15px;margin-bottom:12px}
+.rglbl{font-size:14px;font-weight:800;color:var(--text)}
+.ropt{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--text);cursor:pointer}
+.ropt input[type=radio]{accent-color:var(--teal);width:19px;height:19px}
+.strig{border:1.5px solid var(--teal);border-radius:var(--ri);padding:13px 15px;margin-bottom:12px;background:#fff;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.stxt{font-size:13px;font-weight:500;color:var(--sub)}
+.stxt.f{color:var(--text);font-weight:700}
+.chv{color:var(--sub);font-size:16px}
+.sblk{background:#fff;border-radius:20px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;border:1px solid #f0f2f6}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #f4f6fa}
+.srow:last-child{border:none}
+.slbl{font-size:13px;font-weight:500;color:var(--sub)}
+.sval{font-size:13px;font-weight:800;color:var(--text)}
+.dbtns{display:flex;gap:12px}
+
+/* ---- OVERLAYS ---- */
+.ovl{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.ovl.show{display:flex}
+.bsht{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:430px;max-height:70vh;overflow-y:auto;padding:24px 20px 40px;animation:sup .3s cubic-bezier(.25,.8,.25,1)}
+.bsht::-webkit-scrollbar{display:none}
+@keyframes sup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.shtit{font-size:15px;font-weight:900;text-align:center;color:var(--text);margin-bottom:16px}
+.shi{padding:13px 4px;border-bottom:1px solid #f0f2f6;font-size:13px;font-weight:600;color:var(--text);text-align:right;cursor:pointer}
+.shi:last-child{border:none}
+.shi:hover{color:var(--teal)}
+.covl{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:400;display:none;align-items:center;justify-content:center}
+.covl.show{display:flex}
+.cmod{background:#fff;border-radius:22px;width:85%;max-width:320px;padding:28px 22px;text-align:center;animation:pin .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pin{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.chkc{width:58px;height:58px;border-radius:50%;border:3px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.mmsg{font-size:14px;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.6}
+.ptit2{font-size:17px;font-weight:800;color:var(--text);text-align:center;margin-bottom:20px}
+.pdots{display:flex;justify-content:center;gap:12px;margin-bottom:24px}
+.pdot{width:46px;height:46px;border-radius:50%;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--teal);font-weight:900}
+.pdot.f{background:rgba(92,184,178,0.1)}
+.prow{display:flex;align-items:center;gap:12px}
+.pcnl{color:var(--green);font-size:14px;font-weight:800;background:none;border:none;font-family:'Cairo',sans-serif;cursor:pointer;padding:12px}
+.perr{color:#e53935;font-size:13px;font-weight:700;text-align:center;margin-top:-22px;margin-bottom:16px;display:none}
+.phdn{position:absolute;opacity:0;pointer-events:none;top:-9999px}
+
+/* ---- RECEIPT PAGE ---- */
+#pg-receipt{background:#f2f4f8}
+.rtop{background:var(--grad-top);padding:env(safe-area-inset-top,16px) 16px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:60px}
+.rhero{background:var(--grad-top);padding:0 24px 48px;flex-shrink:0;text-align:center;position:relative}
+.ramt{font-size:42px;font-weight:900;color:#fff;display:flex;align-items:flex-start;justify-content:center;gap:4px;margin-bottom:12px}
+.ramt .ils2{font-size:20px;margin-top:10px}
+.rtype{font-size:14px;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:6px}
+.rsndr{font-size:14px;font-weight:800;color:var(--green)}
+.rcard{background:#fff;border-radius:24px 24px 0 0;margin-top:-24px;padding:22px 18px 18px;flex:1;overflow-y:auto;position:relative;z-index:2}
+.rcard::-webkit-scrollbar{display:none}
+.rrow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f4f8}
+.rrow:last-child{border:none}
+.rlbl{font-size:13px;font-weight:500;color:var(--sub)}
+.rval{font-size:13px;font-weight:800;color:var(--text);text-align:left;direction:ltr}
+.rval.gr{color:var(--green)}
+.rbtns{display:flex;gap:12px;padding:13px 15px env(safe-area-inset-bottom,15px);background:#fff;flex-shrink:0}
+.rshr{flex:1;border:2px solid var(--green);border-radius:var(--r);background:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;color:var(--green);cursor:pointer;padding:13px}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="spin"></div>
+  <div class="ldr-txt" id="ltxt">جارٍ التحميل...</div>
+</div>
+
+<!-- ===== LOGIN ===== -->
+<div class="page active" id="pg-login">
+  <div class="l-hero">
+    <div class="l-lang">▾ العربية</div>
+    <div class="l-text">
+      <h1>مرحباً</h1>
+      <p>تسجيل الدخول إلى محفظة<br><strong>Jawwal Pay</strong> الخاص بك</p>
+    </div>
+  </div>
+  <div class="l-card">
+    <div class="fw">
+      <div class="fi">
+        <label>موبايل</label>
+        <input type="tel" id="l-phone" dir="ltr">
+      </div>
+      <div class="fdiv"></div>
+      <span class="fpfx">+970</span>
+    </div>
+    <div class="pw-wrap">
+      <input type="password" id="l-pass" placeholder="كلمة المرور">
+    </div>
+    <div class="lerr" id="lerr">اسم المستخدم أو كلمة المرور غير صحيحة</div>
+    <span class="forgot">نسيت كلمة المرور؟</span>
+    <div class="lacts">
+      <div class="cir">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="6" height="6" rx="1.5" stroke="white" stroke-width="2" fill="none"/>
+          <rect x="20" y="2" width="6" height="6" rx="1.5" stroke="white" stroke-width="2" fill="none"/>
+          <rect x="2" y="20" width="6" height="6" rx="1.5" stroke="white" stroke-width="2" fill="none"/>
+          <rect x="20" y="20" width="6" height="6" rx="1.5" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="10" cy="11" r="1.5" fill="white"/>
+          <circle cx="18" cy="11" r="1.5" fill="white"/>
+          <path d="M10 17.5 Q14 21 18 17.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="cir">
+        <svg width="30" height="22" viewBox="0 0 30 22" fill="none">
+          <rect x="1" y="1" width="28" height="20" rx="3" stroke="white" stroke-width="1.8" fill="none"/>
+          <circle cx="9" cy="11" r="3.5" stroke="white" stroke-width="1.6" fill="none"/>
+          <line x1="15" y1="7.5" x2="26" y2="7.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="15" y1="11" x2="26" y2="11" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="15" y1="14.5" x2="21" y2="14.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <button class="btn" style="flex:1;padding:17px 12px;font-size:16px;" onclick="doLogin()">تسجيل الدخول</button>
+    </div>
+    <div class="qrrow">
+      <div class="qri">
+        <div class="qrico">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="1" y="1" width="13" height="13" rx="2" stroke="#8896a8" stroke-width="1.8" fill="none"/><rect x="4" y="4" width="7" height="7" rx="1" fill="#8896a8"/>
+            <rect x="22" y="1" width="13" height="13" rx="2" stroke="#8896a8" stroke-width="1.8" fill="none"/><rect x="25" y="4" width="7" height="7" rx="1" fill="#8896a8"/>
+            <rect x="1" y="22" width="13" height="13" rx="2" stroke="#8896a8" stroke-width="1.8" fill="none"/><rect x="4" y="25" width="7" height="7" rx="1" fill="#8896a8"/>
+            <rect x="22" y="22" width="6" height="6" rx="1" fill="#8896a8"/><rect x="30" y="22" width="5" height="5" rx="1" fill="#8896a8"/>
+            <rect x="22" y="30" width="5" height="5" rx="1" fill="#8896a8"/><rect x="29" y="29" width="6" height="6" rx="1" fill="#8896a8"/>
+          </svg>
+        </div>
+        <span>المدفوعات بدون إنترنت</span>
+      </div>
+      <div class="qri">
+        <div class="qrico gold">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="1" y="1" width="13" height="13" rx="2" stroke="white" stroke-width="1.8" fill="none"/><rect x="4" y="4" width="7" height="7" rx="1" fill="white"/>
+            <rect x="22" y="1" width="13" height="13" rx="2" stroke="white" stroke-width="1.8" fill="none"/><rect x="25" y="4" width="7" height="7" rx="1" fill="white"/>
+            <rect x="1" y="22" width="13" height="13" rx="2" stroke="white" stroke-width="1.8" fill="none"/><rect x="4" y="25" width="7" height="7" rx="1" fill="white"/>
+            <rect x="22" y="22" width="6" height="6" rx="1" fill="white"/><rect x="30" y="22" width="5" height="5" rx="1" fill="white"/>
+            <rect x="22" y="30" width="5" height="5" rx="1" fill="white"/><rect x="29" y="29" width="6" height="6" rx="1" fill="white"/>
+          </svg>
+        </div>
+        <span>امسح الرمز للدفع</span>
+      </div>
+    </div>
+    <div class="reg">مستخدم جديد؟ <a>إنشاء حساب جديد</a></div>
+  </div>
+</div>
+
+<!-- ===== HOME ===== -->
+<div class="page" id="pg-home">
+  <div class="htop">
+    <div class="ham"><span></span><span></span><span></span></div>
+    <div class="ava">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+        <circle cx="13" cy="9" r="5" stroke="#8896a8" stroke-width="2" fill="none"/>
+        <path d="M3 23c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#8896a8" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+  </div>
+  <div class="huser">
+    <div class="greet">مرحباً!</div>
+    <div class="uname">سالم عمر أبوغالي</div>
+    <div class="blbl">رصيد محفظتك</div>
+    <div class="bal">0.2<span class="ils">₪</span></div>
+  </div>
+  <div class="aban">
+    <div class="abtn">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M22 8L8 22M22 8H14M22 8V16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>إرسال</span>
+    </div>
+    <div class="asep"></div>
+    <div class="abtn">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M8 22L22 8M8 22H16M8 22V14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>إستلام</span>
+    </div>
+  </div>
+  <div class="stit">الخدمات</div>
+  <div class="sgrid">
+    <div class="scard" onclick="nav('pg-bene')">
+      <div class="sico ibg"><span class="ibolt">⚡</span><span class="ilbl">iBURAQ</span></div>
+      <span class="sname">iBuraq</span>
+    </div>
+    <div class="scard">
+      <div class="sico" style="background:#fff8e6;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="10" width="24" height="18" rx="3" stroke="#e8a000" stroke-width="2" fill="none"/><path d="M10 10V8a6 6 0 0112 0v2" stroke="#e8a000" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="13" y="17" width="6" height="5" rx="1.5" fill="#e8a000"/></svg>
+      </div>
+      <span class="sname">الدفع للتاجر</span>
+    </div>
+    <div class="scard">
+      <div class="sico" style="background:#e8f5ff;flex-direction:column;gap:1px;">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M4 14 Q8 4 14 7 Q18 9 14 14 Q10 19 14 21 Q20 24 24 14" stroke="#0077cc" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+        <span style="font-size:9px;font-weight:900;color:#0077cc;font-family:'Cairo',sans-serif;">E-SADAD</span>
+      </div>
+      <span class="sname">دفع الفواتير</span>
+    </div>
+    <div class="scard">
+      <div class="sico" style="background:#f0ecff;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="8" cy="16" r="2.5" fill="#7b4fa6"/><circle cx="16" cy="16" r="2.5" fill="#7b4fa6"/><circle cx="24" cy="16" r="2.5" fill="#7b4fa6"/></svg>
+      </div>
+      <span class="sname">المزيد</span>
+    </div>
+    <div class="scard">
+      <div class="sico" style="background:#e0faf5;">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="8" y="4" width="14" height="22" rx="3" stroke="#5cb8b2" stroke-width="2" fill="none"/><path d="M15 12v4M13 14h4" stroke="#5cb8b2" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <span class="sname">شحن أرصدة وحزم</span>
+    </div>
+    <div class="scard">
+      <div class="sico" style="background:#fffbe0;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="8" width="26" height="16" rx="3" stroke="#c8a000" stroke-width="2" fill="none"/><rect x="3" y="13" width="26" height="4" fill="#c8a000"/><rect x="6" y="20" width="8" height="2" rx="1" fill="#c8a000"/></svg>
+      </div>
+      <span class="sname">البطاقات</span>
+    </div>
+  </div>
+  <div style="flex:1;min-height:16px;"></div>
+  <div class="bnav">
+    <div class="ntab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      الخريطة
+    </div>
+    <div class="ntab" style="position:relative;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      الإشعارات
+      <span style="position:absolute;top:2px;right:10px;width:9px;height:9px;background:#ff3b30;border-radius:50%;border:2px solid #fff;"></span>
+    </div>
+    <div class="nqw">
+      <div class="nq">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+          <rect x="1" y="1" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="4" y="4" width="5" height="5" rx="1" fill="#333"/>
+          <rect x="18" y="1" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="21" y="4" width="5" height="5" rx="1" fill="#333"/>
+          <rect x="1" y="18" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="4" y="21" width="5" height="5" rx="1" fill="#333"/>
+          <rect x="18" y="18" width="5" height="5" rx="1" fill="#333"/><rect x="25" y="18" width="4" height="4" rx="1" fill="#333"/>
+          <rect x="18" y="25" width="4" height="4" rx="1" fill="#333"/><rect x="24" y="24" width="5" height="5" rx="1" fill="#333"/>
+        </svg>
+        <span class="qlbl">QUICK</span>
+      </div>
+    </div>
+    <div class="ntab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      الأنشطة
+    </div>
+    <div class="ntab active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      الرئيسية
+    </div>
+  </div>
+</div>
+
+<!-- ===== BENEFICIARIES ===== -->
+<div class="page" id="pg-bene">
+  <div class="ptop">
+    <div class="pbk" onclick="nav('pg-home')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="ptit">iBuraq</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="icard">
+    <div class="ititl">قائمة المستفيدين</div>
+    <div class="srch">
+      <input type="text" placeholder="بحث" oninput="filterBenes(this.value)">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="#8896a8" stroke-width="2"/><path d="M13 13l3 3" stroke="#8896a8" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div id="blist"></div>
+  </div>
+  <div class="sbtm"><button class="btn" onclick="nav('pg-add-bene')">ادارة قائمة المستفيدين</button></div>
+</div>
+
+<!-- ===== ADD BENEFICIARY ===== -->
+<div class="page" id="pg-add-bene">
+  <div class="ptop">
+    <div class="pbk" onclick="nav('pg-bene')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="ptit">iBuraq</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="icard">
+    <div class="ititl">إضافة مستفيد</div>
+    <input class="finp" type="text" id="new-name" placeholder="اسم المستفيد">
+    <div class="rgrp">
+      <label class="ropt">IBAN <input type="radio" name="av" value="iban"></label>
+      <label class="ropt">رقم الموبايل <input type="radio" name="av" value="mobile" checked></label>
+      <span class="rglbl">إضافة عن طريق</span>
+    </div>
+    <input class="finp" type="tel" id="new-phone" placeholder="رقم الموبايل">
+    <div class="strig" onclick="openSheet('bs')">
+      <span class="chv">▾</span>
+      <span class="stxt" id="btxt">اسم البنك</span>
+    </div>
+  </div>
+  <div class="sbtm"><button class="btn" onclick="submitBene()">إضافة مستفيد</button></div>
+</div>
+
+<!-- ===== BENE SUMMARY ===== -->
+<div class="page" id="pg-bene-sum">
+  <div class="ptop">
+    <div class="pbk" onclick="nav('pg-add-bene')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="ptit">iBuraq</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="icard">
+    <div class="ititl">ملخص إضافة مستفيد</div>
+    <div class="sblk">
+      <div class="srow"><span class="slbl">اسم المستفيد</span><span class="sval" id="bs-nm"></span></div>
+      <div class="srow"><span class="slbl">اسم البنك</span><span class="sval" id="bs-bk"></span></div>
+      <div class="srow"><span class="slbl">الإسم المستعار</span><span class="sval" id="bs-ph"></span></div>
+      <div class="srow"><span class="slbl">العملة</span><span class="sval">ILS</span></div>
+    </div>
+  </div>
+  <div class="sbtm">
+    <div class="dbtns">
+      <button class="btn-out" onclick="nav('pg-add-bene')">إلغاء</button>
+      <button class="btn flex1" onclick="confirmBene()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEND ===== -->
+<div class="page" id="pg-send">
+  <div class="ptop">
+    <div class="pbk" onclick="nav('pg-bene')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="ptit">iBuraq</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="icard">
+    <div class="ititl">إرسال أموال</div>
+    <div class="sblk" style="margin-bottom:16px;">
+      <div class="srow"><span class="slbl">اسم المستفيد</span><span class="sval" id="snd-nm"></span></div>
+      <div class="srow"><span class="slbl">اسم البنك</span><span class="sval" id="snd-bk"></span></div>
+      <div class="srow"><span class="slbl">الإسم المستعار</span><span class="sval" id="snd-ph"></span></div>
+    </div>
+    <input class="finp" type="number" id="snd-amt" placeholder="مبلغ التحويل (ILS)">
+    <div class="strig" onclick="openSheet('ps')">
+      <span class="chv">▾</span>
+      <span class="stxt" id="ptxt">الغرض من التحويل</span>
+    </div>
+  </div>
+  <div class="sbtm"><button class="btn" onclick="goSendSum()">إرسال</button></div>
+</div>
+
+<!-- ===== SEND SUMMARY ===== -->
+<div class="page" id="pg-send-sum">
+  <div class="ptop">
+    <div class="pbk" onclick="nav('pg-send')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="ptit">iBuraq</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="icard">
+    <div class="ititl">ملخص إرسال أموال</div>
+    <div class="sblk">
+      <div class="srow"><span class="slbl">اسم المستفيد</span><span class="sval" id="ss-nm"></span></div>
+      <div class="srow"><span class="slbl">اسم البنك</span><span class="sval" id="ss-bk"></span></div>
+      <div class="srow"><span class="slbl">الإسم المستعار</span><span class="sval" id="ss-ph"></span></div>
+      <div class="srow"><span class="slbl">الغرض من التحويل</span><span class="sval" id="ss-pur"></span></div>
+      <div class="srow"><span class="slbl">مبلغ التحويل</span><span class="sval" id="ss-amt"></span></div>
+      <div class="srow"><span class="slbl">الرسوم</span><span class="sval">0.00 ILS</span></div>
+      <div class="srow"><span class="slbl">المجموع</span><span class="sval" id="ss-tot"></span></div>
+    </div>
+  </div>
+  <div class="sbtm"><button class="btn" onclick="openPin()">تأكيد</button></div>
+</div>
+
+<!-- ===== RECEIPT ===== -->
+<div class="page" id="pg-receipt">
+  <div class="rtop">
+    <div class="pbk" onclick="nav('pg-home')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="ptit">وصل استلام</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="rhero">
+    <div class="ramt"><span id="rc-amt">0.0</span><span class="ils2">₪</span></div>
+    <div class="rtype">حوالة صادرة IBURAQ</div>
+    <div class="rsndr" id="rc-sndr">saleem omar aughali</div>
+  </div>
+  <div class="rcard">
+    <div class="rrow"><span class="rlbl">رمز الحركة</span><span class="rval" id="rc-ref">—</span></div>
+    <div class="rrow"><span class="rlbl">حالة الطلب</span><span class="rval gr">تم القبول</span></div>
+    <div class="rrow"><span class="rlbl">الوقت</span><span class="rval" id="rc-time">—</span></div>
+    <div class="rrow"><span class="rlbl">التاريخ</span><span class="rval" id="rc-date">—</span></div>
+    <div class="rrow"><span class="rlbl">قيمة الحركة</span><span class="rval" id="rc-val">—</span></div>
+    <div class="rrow"><span class="rlbl">الرسوم</span><span class="rval">0.0 ILS</span></div>
+    <div class="rrow"><span class="rlbl">المجموع</span><span class="rval" id="rc-tot">—</span></div>
+    <div class="rrow"><span class="rlbl">اسم المستفيد</span><span class="rval" id="rc-bnm">—</span></div>
+    <div class="rrow"><span class="rlbl">الاسم المستعار للمستفيد</span><span class="rval" id="rc-bph">—</span></div>
+  </div>
+  <div class="rbtns">
+    <button class="rshr">شارك</button>
+    <button class="btn flex1" onclick="nav('pg-home')">طلب استرجاع</button>
+  </div>
+</div>
+
+<!-- BANK SHEET -->
+<div class="ovl" id="bs" onclick="cls(event,'bs')">
+  <div class="bsht">
+    <div class="shtit">اسم البنك</div>
+    <div class="shi" onclick="pickBank('بنك فلسطين')">بنك فلسطين</div>
+    <div class="shi" onclick="pickBank('بنك القاهرة عمان')">بنك القاهرة عمان</div>
+    <div class="shi" onclick="pickBank('بنك الأردن')">بنك الأردن</div>
+    <div class="shi" onclick="pickBank('البنك العربي')">البنك العربي</div>
+    <div class="shi" onclick="pickBank('البنك العقاري المصري العربي')">البنك العقاري المصري العربي</div>
+    <div class="shi" onclick="pickBank('بنك الاستثمار الفلسطيني')">بنك الاستثمار الفلسطيني</div>
+    <div class="shi" onclick="pickBank('البنك الأهلي')">البنك الأهلي</div>
+    <div class="shi" onclick="pickBank('بال باي')">بال باي</div>
+  </div>
+</div>
+
+<!-- PURPOSE SHEET -->
+<div class="ovl" id="ps" onclick="cls(event,'ps')">
+  <div class="bsht">
+    <div class="shtit">الغرض من التحويل</div>
+    <div class="shi" onclick="pickPurpose('دفع البدلات')">دفع البدلات</div>
+    <div class="shi" onclick="pickPurpose('دفع النفقات')">دفع النفقات</div>
+    <div class="shi" onclick="pickPurpose('دفع المكافأة ومكافأة نهاية الخدمة')">دفع المكافأة ومكافأة نهاية الخدمة</div>
+    <div class="shi" onclick="pickPurpose('دفع المساهمات في صندوق التقاعد')">دفع المساهمات في صندوق التقاعد</div>
+    <div class="shi" onclick="pickPurpose('دفع الراتب التقاعدي')">دفع الراتب التقاعدي</div>
+    <div class="shi" onclick="pickPurpose('دفع الرواتب والأجور')">دفع الرواتب والأجور</div>
+    <div class="shi" onclick="pickPurpose('الدفع الحكومي للضمان والتنمية الاجتماعية')">الدفع الحكومي للضمان والتنمية الاجتماعية</div>
+    <div class="shi" onclick="pickPurpose('دفع الضرائب')">دفع الضرائب</div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="covl" id="sucm">
+  <div class="cmod">
+    <div class="chkc">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M7 16l7 7 11-12" stroke="#8dc63f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="mmsg" id="sucmsg"></div>
+    <button class="btn" onclick="afterBene()">تم</button>
+  </div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="covl" id="pinm">
+  <div class="cmod" onclick="document.getElementById('pinh').focus()">
+    <div class="ptit2">أدخل الرقم السري للمحفظة</div>
+    <div class="pdots">
+      <div class="pdot" id="pd0"></div><div class="pdot" id="pd1"></div>
+      <div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div>
+    </div>
+    <div class="perr" id="perr">الرقم السري غير صحيح</div>
+    <div class="prow">
+      <button class="pcnl" onclick="closePin()">إلغاء</button>
+      <button class="btn flex1" style="padding:14px;" onclick="checkPin()">إرسال</button>
+    </div>
+    <input type="tel" id="pinh" maxlength="4" class="phdn" oninput="pinInput(this.value)">
+  </div>
+</div>
+
+</div>
+<script>
+var benes=[{name:'علم الدين',phone:'0567000076',bank:'بنك فلسطين'},{name:'Salem',phone:'0599538414',bank:'بال باي'}];
+var selBank='',selPurpose='',curIdx=-1,pendingBene=null;
+
+var MSGS=['جارٍ التحميل...','يرجى الانتظار...','جارٍ المعالجة...','تأكيد العملية...','جارٍ الاتصال بالخادم...'];
+
+function loader(msg,ms){
+  return new Promise(function(res){
+    var el=document.getElementById('loader');
+    document.getElementById('ltxt').textContent=msg||MSGS[Math.floor(Math.random()*MSGS.length)];
+    el.classList.add('show');
+    setTimeout(function(){el.classList.remove('show');res();},ms||800);
+  });
+}
+
+function nav(id,msg,ms){
+  loader(msg,ms).then(function(){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    var pg=document.getElementById(id);
+    pg.classList.add('active');
+    pg.scrollTop=0;
+    closeDrops();
+  });
+}
+
+function doLogin(){
+  var ph=document.getElementById('l-phone').value.trim();
+  var pw=document.getElementById('l-pass').value.trim();
+  var err=document.getElementById('lerr');
+  if(ph==='2001'&&pw==='2001'){
+    err.style.display='none';
+    renderBenes(benes);
+    nav('pg-home','جارٍ تسجيل الدخول...',1300);
+  } else {
+    err.style.display='block';
+  }
+}
+document.getElementById('l-pass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+
+function renderBenes(list){
+  var c=document.getElementById('blist');
+  c.innerHTML='';
+  list.forEach(function(b,i){
+    c.innerHTML+='<div class="bcrd"><div class="binf"><div class="bnm">'+b.name+'</div><div class="bph">'+b.phone+'</div><div class="bbk">'+b.bank+'</div></div><div class="dts" onclick="toggleDrop(event,'+i+')"><span></span><span></span><span></span><div class="dmn" id="drop-'+i+'"><div class="dmi" onclick="goSend('+i+')">تحويل أموال</div><div class="dmi">طلب أموال</div></div></div></div>';
+  });
+}
+function filterBenes(q){renderBenes(benes.filter(function(b){return b.name.includes(q)||b.phone.includes(q);}));}
+function toggleDrop(e,i){
+  e.stopPropagation();
+  var d=document.getElementById('drop-'+i),open=d.classList.contains('open');
+  closeDrops();
+  if(!open)d.classList.add('open');
+}
+function closeDrops(){document.querySelectorAll('.dmn.open').forEach(function(d){d.classList.remove('open');});}
+document.addEventListener('click',closeDrops);
+
+function pickBank(name){
+  selBank=name;
+  var t=document.getElementById('btxt');
+  t.textContent=name;t.classList.add('f');
+  document.getElementById('bs').classList.remove('show');
+}
+function submitBene(){
+  var name=document.getElementById('new-name').value.trim();
+  var phone=document.getElementById('new-phone').value.trim();
+  if(!name||!phone||!selBank){alert('يرجى ملء جميع الحقول واختيار البنك');return;}
+  pendingBene={name:name,phone:phone,bank:selBank};
+  document.getElementById('bs-nm').textContent=name;
+  document.getElementById('bs-bk').textContent=selBank;
+  document.getElementById('bs-ph').textContent=phone;
+  nav('pg-bene-sum','جارٍ التحقق...');
+}
+function confirmBene(){
+  if(!pendingBene)return;
+  benes.push(pendingBene);
+  var nm=pendingBene.name;pendingBene=null;
+  document.getElementById('new-name').value='';
+  document.getElementById('new-phone').value='';
+  selBank='';
+  document.getElementById('btxt').textContent='اسم البنك';
+  document.getElementById('btxt').classList.remove('f');
+  document.getElementById('sucmsg').textContent='تم بنجاح إضافة المستفيد '+nm;
+  document.getElementById('sucm').classList.add('show');
+}
+function afterBene(){
+  document.getElementById('sucm').classList.remove('show');
+  renderBenes(benes);
+  nav('pg-bene','جارٍ التحديث...');
+}
+
+function goSend(i){
+  curIdx=i;
+  var b=benes[i];
+  document.getElementById('snd-nm').textContent=b.name;
+  document.getElementById('snd-bk').textContent=b.bank;
+  document.getElementById('snd-ph').textContent=b.phone;
+  document.getElementById('snd-amt').value='';
+  selPurpose='';
+  var pt=document.getElementById('ptxt');
+  pt.textContent='الغرض من التحويل';pt.classList.remove('f');
+  nav('pg-send');
+}
+function pickPurpose(p){
+  selPurpose=p;
+  var t=document.getElementById('ptxt');
+  t.textContent=p;t.classList.add('f');
+  document.getElementById('ps').classList.remove('show');
+}
+function goSendSum(){
+  var amt=document.getElementById('snd-amt').value;
+  if(!amt||!selPurpose){alert('يرجى إدخال المبلغ واختيار الغرض');return;}
+  var b=benes[curIdx];
+  document.getElementById('ss-nm').textContent=b.name;
+  document.getElementById('ss-bk').textContent=b.bank;
+  document.getElementById('ss-ph').textContent=b.phone;
+  document.getElementById('ss-pur').textContent=selPurpose;
+  document.getElementById('ss-amt').textContent=amt+' ILS';
+  document.getElementById('ss-tot').textContent=amt+' ILS';
+  nav('pg-send-sum','جارٍ الإعداد...');
+}
+
+function openPin(){
+  document.getElementById('pinh').value='';
+  pinInput('');
+  document.getElementById('perr').style.display='none';
+  document.getElementById('pinm').classList.add('show');
+  setTimeout(function(){document.getElementById('pinh').focus();},100);
+}
+function closePin(){document.getElementById('pinm').classList.remove('show');}
+function pinInput(v){
+  for(var i=0;i<4;i++){
+    var d=document.getElementById('pd'+i);
+    d.textContent=v.length>i?'●':'';
+    d.classList.toggle('f',v.length>i);
+  }
+}
+function checkPin(){
+  var v=document.getElementById('pinh').value;
+  if(v==='2001'){
+    closePin();
+    buildReceipt();
+  } else {
+    document.getElementById('perr').style.display='block';
+    document.getElementById('pinh').value='';
+    pinInput('');
+  }
+}
+function buildReceipt(){
+  var b=benes[curIdx];
+  var amt=document.getElementById('snd-amt').value;
+  var now=new Date();
+  var t=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+  var d=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var ref=String(Math.floor(Math.random()*9000000000000)+1000000000000);
+  document.getElementById('rc-amt').textContent=parseFloat(amt).toFixed(1);
+  document.getElementById('rc-sndr').textContent='saleem omar aughali';
+  document.getElementById('rc-ref').textContent=ref;
+  document.getElementById('rc-time').textContent=t;
+  document.getElementById('rc-date').textContent=d;
+  document.getElementById('rc-val').textContent=parseFloat(amt).toFixed(1)+' ILS';
+  document.getElementById('rc-tot').textContent=parseFloat(amt).toFixed(1)+' ILS';
+  document.getElementById('rc-bnm').textContent=b.name;
+  document.getElementById('rc-bph').textContent=b.phone;
+  nav('pg-receipt','جارٍ معالجة التحويل...',1500);
+}
+
+function openSheet(id){document.getElementById(id).classList.add('show');}
+function cls(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('show');}
+
+renderBenes(benes);
+</script>
+</body>
+</html>
