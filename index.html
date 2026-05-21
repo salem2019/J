@@ -195,6 +195,171 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
 .rval.gr{color:var(--green)}
 .rbtns{display:flex;gap:12px;padding:13px 15px env(safe-area-inset-bottom,15px);background:#fff;flex-shrink:0}
 .rshr{flex:1;border:2px solid var(--green);border-radius:var(--r);background:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;color:var(--green);cursor:pointer;padding:13px}
+
+/* ---- TRANSFER PAGES ---- */
+.tr-hero{background:var(--grad-top);padding:env(safe-area-inset-top,0px) 0 0;flex-shrink:0;position:relative;overflow:hidden}
+.tr-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Ccircle cx='250' cy='50' r='120' fill='rgba(255,255,255,0.05)'/%3E%3Ccircle cx='50' cy='160' r='80' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E") no-repeat center;opacity:.6}
+.tr-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;position:relative;z-index:1}
+.tr-title{font-size:16px;font-weight:800;color:#fff;text-align:center;flex:1}
+.tr-card{background:#fff;border-radius:22px 22px 0 0;flex:1;padding:20px 18px;overflow-y:auto}
+.tr-card::-webkit-scrollbar{display:none}
+.tr-sec-title{font-size:15px;font-weight:700;color:var(--text);text-align:center;margin-bottom:22px}
+
+/* QR scan box */
+.qr-scan-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0 28px;border-bottom:1px solid #f0f2f6;margin-bottom:24px;cursor:pointer}
+.qr-frame{width:64px;height:64px;position:relative;margin-bottom:10px}
+.qr-frame::before,.qr-frame::after{content:'';position:absolute;width:18px;height:18px;border-color:var(--green);border-style:solid}
+.qr-frame::before{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 4px 0 0}
+.qr-frame::after{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 4px}
+.qr-corner-bl{position:absolute;bottom:0;right:0;width:18px;height:18px;border-width:0 3px 3px 0;border-style:solid;border-color:var(--green);border-radius:0 0 4px 0}
+.qr-corner-tl{position:absolute;top:0;left:0;width:18px;height:18px;border-width:3px 0 0 3px;border-style:solid;border-color:var(--green);border-radius:4px 0 0 0}
+.qr-line{position:absolute;top:50%;left:6px;right:6px;height:2px;background:rgba(141,198,63,0.5);transform:translateY(-50%)}
+.qr-scan-txt{font-size:13px;font-weight:600;color:var(--sub)}
+
+/* manual add */
+.manual-add{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 0 26px;cursor:pointer}
+.manual-icon{width:52px;height:52px;border-radius:50%;border:2.5px solid var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.manual-txt{font-size:13px;font-weight:600;color:var(--sub)}
+
+/* recent list */
+.recent-section{background:#f0f2f8;border-radius:16px;padding:14px 16px}
+.recent-title{font-size:14px;font-weight:800;color:var(--purple);text-align:right;margin-bottom:12px}
+.recent-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e4e8f0;cursor:pointer}
+.recent-item:last-child{border:none}
+.recent-phone{font-size:14px;font-weight:700;color:var(--text);direction:ltr;text-align:left}
+.recent-name{font-size:12px;font-weight:600;color:var(--purple)}
+
+/* search page */
+.srch-page-card{background:#fff;border-radius:22px 22px 0 0;flex:1;padding:16px 18px;overflow-y:auto}
+.srch-input-wrap{background:#f0f2f8;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:16px;border:1px solid #e0e4ee}
+.srch-input-wrap input{flex:1;border:none;background:transparent;font-family:'Cairo',sans-serif;font-size:14px;color:var(--text);outline:none;text-align:right;direction:ltr}
+.srch-input-wrap .x-btn{color:var(--sub);cursor:pointer;font-size:16px;padding:2px 6px}
+.tab-row{display:flex;border-radius:12px;overflow:hidden;margin-bottom:18px;background:#f0f2f8}
+.tab-item{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;border-radius:12px;transition:all .2s}
+.tab-item.active{background:var(--teal);color:#fff}
+.srch-result-title{font-size:14px;font-weight:800;color:var(--purple);text-align:right;margin-bottom:12px}
+.add-phone-btn{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--green);font-size:14px;font-weight:700;cursor:pointer;padding:12px 0}
+
+/* numpad page */
+.numpad-hero{background:var(--grad-top);padding:env(safe-area-inset-top,0px) 0 0;flex-shrink:0}
+.send-to-label{font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);text-align:center;padding-top:14px}
+.send-to-phone{font-size:15px;font-weight:800;color:var(--green);text-align:center;margin-bottom:4px}
+.send-to-sublbl{font-size:12px;font-weight:500;color:rgba(255,255,255,0.7);text-align:center;margin-bottom:8px}
+.amount-display{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 0 6px}
+.amount-num{font-size:44px;font-weight:700;color:var(--green)}
+.amount-ils{font-size:22px;color:rgba(255,255,255,0.8);font-weight:600}
+.add-note-btn{display:flex;align-items:center;justify-content:center;gap:4px;color:var(--green);font-size:13px;font-weight:700;cursor:pointer;padding-bottom:14px}
+.numpad-card{background:#fff;flex:1;display:flex;flex-direction:column}
+.numpad-grid{display:grid;grid-template-columns:repeat(3,1fr);flex:1}
+.numpad-key{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:400;color:var(--text);cursor:pointer;border:none;background:transparent;font-family:'Cairo',sans-serif;border-bottom:1px solid #f4f6fa;border-right:1px solid #f4f6fa;min-height:70px;transition:background .1s;-webkit-tap-highlight-color:transparent}
+.numpad-key:active{background:#f0f2f8}
+.numpad-key:nth-child(3n){border-right:none}
+.numpad-key.del{font-size:20px}
+.numpad-bottom{padding:12px 18px env(safe-area-inset-bottom,12px)}
+
+/* transaction summary */
+.txn-hero{background:var(--grad-top);padding:env(safe-area-inset-top,0px) 0 0;flex-shrink:0;position:relative;overflow:hidden}
+.txn-card{background:#fff;border-radius:22px 22px 0 0;flex:1;padding:20px 18px;overflow-y:auto}
+.txn-card::-webkit-scrollbar{display:none}
+.txn-title{font-size:16px;font-weight:900;color:var(--text);text-align:right;margin-bottom:16px}
+.txn-bal-label{font-size:13px;font-weight:500;color:var(--sub);text-align:right;margin-bottom:4px}
+.txn-bal-val{font-size:28px;font-weight:900;color:var(--text);text-align:right;margin-bottom:18px;display:flex;align-items:center;gap:4px;justify-content:flex-end}
+.txn-bal-ils{font-size:16px;color:var(--sub)}
+.txn-divider{height:1px;background:var(--purple);opacity:.25;margin:10px 0}
+.txn-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+.txn-lbl{font-size:13px;font-weight:500;color:var(--sub);text-align:right}
+.txn-val{font-size:13px;font-weight:700;color:var(--text);direction:ltr;text-align:left}
+.txn-new-bal{font-size:28px;font-weight:900;color:var(--text);text-align:right;display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:6px}
+
+/* success page */
+#pg-tsuccess{background:#fff}
+.tsuc-hero{background:var(--grad-top);min-height:200px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.tsuc-title{font-size:28px;font-weight:900;color:#fff;text-align:center;padding:env(safe-area-inset-top,20px) 20px 60px}
+.tsuc-check{width:80px;height:80px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);box-shadow:0 4px 20px rgba(141,198,63,0.5);animation:popIn .35s cubic-bezier(.34,1.56,.64,1) .1s both}
+@keyframes popIn{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) scale(1)}}
+.tsuc-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:60px 24px 24px}
+.tsuc-msg{font-size:15px;font-weight:600;color:var(--text);text-align:center;line-height:1.7;margin-bottom:36px;max-width:300px}
+.tsuc-btns{width:100%;display:flex;flex-direction:column;gap:12px}
+.tsuc-view{width:100%;border:2px solid var(--green);border-radius:var(--r);background:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;color:var(--green);cursor:pointer;padding:14px}
+/* ---- IN-APP NOTIFICATION TOAST ---- */
+#inapp-notif {
+  position: fixed;
+  top: env(safe-area-inset-top, 12px);
+  left: 50%; transform: translateX(-50%) translateY(-120px);
+  width: calc(100% - 32px); max-width: 398px;
+  background: #1c1c2e;
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  z-index: 99998;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  transition: transform 0.42s cubic-bezier(.34,1.3,.64,1);
+  cursor: pointer;
+}
+#inapp-notif.show { transform: translateX(-50%) translateY(12px); }
+.notif-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--grad-btn);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 20px;
+}
+.notif-body { flex: 1; }
+.notif-app { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 2px; letter-spacing: .5px; text-transform: uppercase; }
+.notif-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+.notif-msg { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.75); line-height: 1.4; }
+.notif-time { font-size: 10px; color: rgba(255,255,255,0.4); flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+/* ---- NOTIFICATIONS PAGE ---- */
+#pg-notifs { background:#fff; }
+.notif-pg-topbar {
+  background: var(--grad-top);
+  height: 56px; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.notif-pg-title { font-size: 16px; font-weight: 800; color: #fff; flex:1; text-align:center; }
+
+.notif-tabs-row {
+  display: flex; gap: 0;
+  margin: 14px 16px;
+  background: #f0f2f8; border-radius: 14px; overflow: hidden;
+}
+.notif-tab-btn {
+  flex: 1; padding: 11px 8px; text-align: center;
+  font-size: 13px; font-weight: 700; color: var(--sub);
+  cursor: pointer; border-radius: 12px; transition: all .2s;
+  background: transparent; border: none; font-family: 'Cairo', sans-serif;
+}
+.notif-tab-btn.active { background: var(--teal); color: #fff; }
+
+.notif-section-title {
+  font-size: 15px; font-weight: 900; color: var(--text);
+  text-align: right; padding: 0 16px 10px;
+  text-decoration: underline; text-decoration-color: var(--teal);
+  text-underline-offset: 4px;
+}
+.notif-list { flex: 1; overflow-y: auto; padding: 0 16px 16px; }
+.notif-list::-webkit-scrollbar { display: none; }
+
+.notif-item {
+  border-bottom: 1px solid #f0f2f6;
+  padding: 14px 0;
+}
+.notif-item-phone {
+  font-size: 13px; font-weight: 600; color: var(--sub);
+  text-align: right; direction: ltr; margin-bottom: 5px;
+}
+.notif-item-body {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  text-align: right; line-height: 1.6; margin-bottom: 6px;
+}
+.notif-item-body strong { color: var(--text); }
+.notif-item-date {
+  font-size: 12px; font-weight: 500; color: var(--sub); text-align: left;
+}
+.notif-empty {
+  text-align: center; color: var(--sub); font-size: 14px;
+  font-weight: 600; padding: 40px 20px;
+}
 </style>
 </head>
 <body>
@@ -204,6 +369,17 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
 <div id="loader">
   <div class="spin"></div>
   <div class="ldr-txt" id="ltxt">جارٍ التحميل...</div>
+</div>
+
+<!-- IN-APP NOTIFICATION -->
+<div id="inapp-notif" onclick="this.classList.remove('show')">
+  <div class="notif-icon">💸</div>
+  <div class="notif-body">
+    <div class="notif-app">Jawwal Pay</div>
+    <div class="notif-title" id="notif-title">تحويل ناجح ✅</div>
+    <div class="notif-msg" id="notif-msg">—</div>
+  </div>
+  <div class="notif-time" id="notif-time">الآن</div>
 </div>
 
 <!-- ===== LOGIN ===== -->
@@ -297,10 +473,10 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
     <div class="greet">مرحباً!</div>
     <div class="uname">سالم عمر أبوغالي</div>
     <div class="blbl">رصيد محفظتك</div>
-    <div class="bal">0.2<span class="ils">₪</span></div>
+    <div class="bal" id="home-bal">3,680.00<span class="ils">₪</span></div>
   </div>
   <div class="aban">
-    <div class="abtn">
+    <div class="abtn" onclick="nav('pg-transfer')">
       <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M22 8L8 22M22 8H14M22 8V16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>إرسال</span>
     </div>
@@ -354,10 +530,10 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
       الخريطة
     </div>
-    <div class="ntab" style="position:relative;">
+    <div class="ntab" id="notif-tab" style="position:relative;" onclick="openNotifPage()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       الإشعارات
-      <span style="position:absolute;top:2px;right:10px;width:9px;height:9px;background:#ff3b30;border-radius:50%;border:2px solid #fff;"></span>
+      <span id="notif-badge" style="position:absolute;top:2px;right:10px;width:9px;height:9px;background:#ff3b30;border-radius:50%;border:2px solid #fff;"></span>
     </div>
     <div class="nqw">
       <div class="nq">
@@ -522,6 +698,196 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
   </div>
 </div>
 
+<!-- ===== TRANSFER PAGE ===== -->
+<div class="page" id="pg-transfer">
+  <div class="tr-hero">
+    <div class="tr-topbar">
+      <div class="pbk" onclick="nav('pg-home')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="tr-title">تحويل الأموال</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="transparent" stroke-width="2.2"/></svg>
+    </div>
+  </div>
+  <div class="tr-card">
+    <div class="tr-sec-title">المستقبل</div>
+    <!-- QR scan -->
+    <div class="qr-scan-box">
+      <div class="qr-frame">
+        <div class="qr-corner-tl"></div>
+        <div class="qr-corner-bl"></div>
+        <div class="qr-line"></div>
+      </div>
+      <div class="qr-scan-txt">مسح رمز QR لإضافة مستقبل</div>
+    </div>
+    <!-- manual -->
+    <div class="manual-add" onclick="nav('pg-search-recipient')">
+      <div class="manual-icon">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="11" cy="11" r="7" stroke="#8dc63f" stroke-width="2.2" fill="none"/><path d="M17 17l5 5" stroke="#8dc63f" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="manual-txt">أو إضافة مستقبل يدوياً</div>
+    </div>
+    <!-- recent -->
+    <div class="recent-section">
+      <div class="recent-title">قائمة المستلمين حديثاً</div>
+      <div class="recent-item" onclick="goToNumpad('00970599327825')">
+        <span class="recent-name">الشمعة المضيئة</span>
+        <span class="recent-phone">00970599327825</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEARCH RECIPIENT ===== -->
+<div class="page" id="pg-search-recipient">
+  <div class="tr-hero">
+    <div class="tr-topbar">
+      <div class="pbk" onclick="nav('pg-transfer')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="tr-title">البحث عن مستلم</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="transparent"/></svg>
+    </div>
+  </div>
+  <div class="srch-page-card">
+    <div class="srch-input-wrap">
+      <span class="x-btn" onclick="document.getElementById('srch-inp').value='';updateSrch('')">✕</span>
+      <input type="tel" id="srch-inp" placeholder="" dir="ltr" oninput="updateSrch(this.value)" autofocus>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="#8896a8" stroke-width="2"/><path d="M13 13l3 3" stroke="#8896a8" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="tab-row">
+      <div class="tab-item active">قائمة الأرقام</div>
+      <div class="tab-item">المفضلة</div>
+    </div>
+    <div class="srch-result-title">نتائج البحث</div>
+    <div id="srch-results">
+      <div class="add-phone-btn" id="add-phone-btn" style="display:none" onclick="addPhoneFromSearch()">
+        <span style="font-size:18px;font-weight:900;">+</span> إضافة رقم الهاتف
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NUMPAD (amount entry) ===== -->
+<div class="page" id="pg-numpad">
+  <div class="numpad-hero">
+    <div class="tr-topbar">
+      <div class="pbk" onclick="nav('pg-transfer')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="tr-title">تحويل الأموال</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="transparent"/></svg>
+    </div>
+    <div class="send-to-label">إرسال إلى</div>
+    <div class="send-to-phone" id="np-phone">—</div>
+    <div class="send-to-sublbl">المبلغ الكلي للتسديد</div>
+    <div class="amount-display">
+      <div class="amount-num" id="np-amount">0</div>
+      <div class="amount-ils">₪</div>
+    </div>
+    <div class="add-note-btn">
+      <span style="font-size:16px;font-weight:900;">+</span> إضافة ملاحظة
+    </div>
+  </div>
+  <div class="numpad-card">
+    <div class="numpad-grid">
+      <button class="numpad-key" onclick="npKey('1')">1</button>
+      <button class="numpad-key" onclick="npKey('2')">2</button>
+      <button class="numpad-key" onclick="npKey('3')">3</button>
+      <button class="numpad-key" onclick="npKey('4')">4</button>
+      <button class="numpad-key" onclick="npKey('5')">5</button>
+      <button class="numpad-key" onclick="npKey('6')">6</button>
+      <button class="numpad-key" onclick="npKey('7')">7</button>
+      <button class="numpad-key" onclick="npKey('8')">8</button>
+      <button class="numpad-key" onclick="npKey('9')">9</button>
+      <button class="numpad-key" onclick="npKey('.')">.</button>
+      <button class="numpad-key" onclick="npKey('0')">0</button>
+      <button class="numpad-key del" onclick="npDel()">⌫</button>
+    </div>
+    <div class="numpad-bottom">
+      <button class="btn" onclick="goTxnSummary()">متابعة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TRANSACTION SUMMARY ===== -->
+<div class="page" id="pg-txn-sum">
+  <div class="txn-hero">
+    <div class="tr-topbar">
+      <div class="pbk" onclick="nav('pg-numpad')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="tr-title">تحويل الأموال</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="transparent"/></svg>
+    </div>
+  </div>
+  <div class="txn-card">
+    <div class="txn-title">ملخص الحركة</div>
+    <div class="txn-bal-label">الرصيد الحالي</div>
+    <div class="txn-bal-val"><span id="txn-cur-bal">3.20</span><span class="txn-bal-ils">₪</span></div>
+    <div class="txn-row"><span class="txn-lbl">نوع الحركة</span><span class="txn-val">تحويل الأموال</span></div>
+    <div class="txn-row"><span class="txn-lbl">المستقبل</span><span class="txn-val" id="txn-phone">—</span></div>
+    <div class="txn-row"><span class="txn-lbl">قيمة الحركة</span><span class="txn-val" id="txn-val-amt">—</span></div>
+    <div class="txn-row"><span class="txn-lbl">الرسوم (على المرسل)</span><span class="txn-val">0.00₪</span></div>
+    <div class="txn-row"><span class="txn-lbl">الرسوم (على المستقبل)</span><span class="txn-val">0.00₪</span></div>
+    <div class="txn-divider"></div>
+    <div class="txn-row"><span class="txn-lbl">المجموع (للمرسل)</span><span class="txn-val" id="txn-total-s">—</span></div>
+    <div class="txn-row"><span class="txn-lbl">المجموع (للمستقبل)</span><span class="txn-val" id="txn-total-r">—</span></div>
+    <div class="txn-divider"></div>
+    <div class="txn-bal-label" style="margin-top:8px;">الرصيد الجديد</div>
+    <div class="txn-new-bal"><span id="txn-new-bal">—</span><span class="txn-bal-ils">₪</span></div>
+  </div>
+  <div class="sbtm"><button class="btn" onclick="openPin()">تأكيد</button></div>
+</div>
+
+<!-- ===== TRANSFER SUCCESS ===== -->
+<div class="page" id="pg-tsuccess">
+  <div class="tsuc-hero">
+    <div class="tsuc-title">تمت بنجاح</div>
+    <div class="tsuc-check">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M8 20l9 9 15-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+  <div class="tsuc-body">
+    <div class="tsuc-msg" id="tsuc-msg">لقد تم تحويل مبلغ <strong id="tsuc-amt">—</strong> شيكل إلى الرقم<br><strong id="tsuc-phone">—</strong> بنجاح</div>
+    <div class="tsuc-btns">
+      <button class="tsuc-view" onclick="nav('pg-receipt')">عرض وصل الاستلام</button>
+      <button class="btn" onclick="nav('pg-home')">عودة إلى شاشة المحفظة الرئيسية</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NOTIFICATIONS PAGE ===== -->
+<div class="page" id="pg-notifs">
+  <div class="notif-pg-topbar">
+    <div class="pbk" onclick="nav('pg-home')">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 18l7-7-7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="notif-pg-title">إشعارات</div>
+    <div class="ham" style="opacity:0;pointer-events:none;"><span></span><span></span><span></span></div>
+  </div>
+  <div class="notif-tabs-row">
+    <button class="notif-tab-btn active">الإشعارات</button>
+    <button class="notif-tab-btn">حركات قيد الانتظار</button>
+  </div>
+  <div class="notif-section-title">جميع الإشعارات</div>
+  <div class="notif-list" id="notif-list">
+    <div class="notif-empty">لا توجد إشعارات بعد</div>
+  </div>
+  <!-- bottom nav mirror -->
+  <div class="bnav">
+    <div class="ntab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>الخريطة</div>
+    <div class="ntab active" onclick="openNotifPage()" style="position:relative;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      الإشعارات
+    </div>
+    <div class="nqw"><div class="nq">
+      <svg width="26" height="26" viewBox="0 0 30 30" fill="none">
+        <rect x="1" y="1" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="4" y="4" width="5" height="5" rx="1" fill="#333"/>
+        <rect x="18" y="1" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="21" y="4" width="5" height="5" rx="1" fill="#333"/>
+        <rect x="1" y="18" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="4" y="21" width="5" height="5" rx="1" fill="#333"/>
+        <rect x="18" y="18" width="5" height="5" rx="1" fill="#333"/><rect x="25" y="18" width="4" height="4" rx="1" fill="#333"/>
+        <rect x="18" y="25" width="4" height="4" rx="1" fill="#333"/><rect x="24" y="24" width="5" height="5" rx="1" fill="#333"/>
+      </svg>
+      <span class="qlbl">QUICK</span>
+    </div></div>
+    <div class="ntab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>الأنشطة</div>
+    <div class="ntab" onclick="nav('pg-home')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</div>
+  </div>
+</div>
+
 <!-- BANK SHEET -->
 <div class="ovl" id="bs" onclick="cls(event,'bs')">
   <div class="bsht">
@@ -584,6 +950,9 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
 <script>
 var benes=[{name:'علم الدين',phone:'0567000076',bank:'بنك فلسطين'},{name:'Salem',phone:'0599538414',bank:'بال باي'}];
 var selBank='',selPurpose='',curIdx=-1,pendingBene=null;
+var npVal='0', npPhone='', txnFlow='iburaq';
+var walletBal=3680.00;
+var notifications=[];
 
 var MSGS=['جارٍ التحميل...','يرجى الانتظار...','جارٍ المعالجة...','تأكيد العملية...','جارٍ الاتصال بالخادم...'];
 
@@ -672,7 +1041,7 @@ function afterBene(){
 }
 
 function goSend(i){
-  curIdx=i;
+  curIdx=i;txnFlow='iburaq';
   var b=benes[i];
   document.getElementById('snd-nm').textContent=b.name;
   document.getElementById('snd-bk').textContent=b.bank;
@@ -699,9 +1068,63 @@ function goSendSum(){
   document.getElementById('ss-pur').textContent=selPurpose;
   document.getElementById('ss-amt').textContent=amt+' ILS';
   document.getElementById('ss-tot').textContent=amt+' ILS';
+  txnFlow='iburaq';
   nav('pg-send-sum','جارٍ الإعداد...');
 }
 
+/* ---- TRANSFER FLOW ---- */
+function goToNumpad(phone){
+  npPhone=phone;npVal='0';txnFlow='transfer';
+  document.getElementById('np-phone').textContent=phone;
+  document.getElementById('np-amount').textContent='0';
+  nav('pg-numpad');
+}
+
+function updateSrch(v){
+  var btn=document.getElementById('add-phone-btn');
+  var res=document.getElementById('srch-results');
+  if(v.length>=6){
+    btn.style.display='flex';
+    res.innerHTML='<div class="add-phone-btn" id="add-phone-btn" onclick="addPhoneFromSearch()"><span style="font-size:18px;font-weight:900;">+</span> إضافة رقم الهاتف</div>';
+  } else {
+    res.innerHTML='<div class="add-phone-btn" id="add-phone-btn" style="display:none" onclick="addPhoneFromSearch()"><span style="font-size:18px;font-weight:900;">+</span> إضافة رقم الهاتف</div>';
+  }
+}
+function addPhoneFromSearch(){
+  var v=document.getElementById('srch-inp').value.trim();
+  if(!v){return;}
+  goToNumpad(v);
+}
+
+function npKey(k){
+  if(k==='.'&&npVal.includes('.'))return;
+  if(npVal==='0'&&k!=='.')npVal=k;
+  else npVal+=k;
+  if(npVal.length>10)return;
+  document.getElementById('np-amount').textContent=npVal;
+}
+function npDel(){
+  if(npVal.length<=1){npVal='0';}
+  else{npVal=npVal.slice(0,-1);}
+  document.getElementById('np-amount').textContent=npVal;
+}
+function goTxnSummary(){
+  var amt=parseFloat(npVal)||0;
+  if(amt<=0){alert('يرجى إدخال مبلغ صحيح');return;}
+  var newBal=(walletBal-amt).toFixed(2);
+  var curFmt=walletBal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var newFmt=parseFloat(newBal).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('txn-cur-bal').textContent=curFmt;
+  document.getElementById('txn-phone').textContent=npPhone;
+  document.getElementById('txn-val-amt').textContent=amt.toFixed(2)+'₪';
+  document.getElementById('txn-total-s').textContent=amt.toFixed(2)+'₪';
+  document.getElementById('txn-total-r').textContent=amt.toFixed(2)+'₪';
+  document.getElementById('txn-new-bal').textContent=newFmt;
+  txnFlow='transfer';
+  nav('pg-txn-sum','جارٍ الإعداد...');
+}
+
+/* ---- PIN ---- */
 function openPin(){
   document.getElementById('pinh').value='';
   pinInput('');
@@ -721,13 +1144,140 @@ function checkPin(){
   var v=document.getElementById('pinh').value;
   if(v==='2001'){
     closePin();
-    buildReceipt();
+    if(txnFlow==='transfer'){
+      finishTransfer();
+    } else {
+      buildReceipt();
+    }
   } else {
     document.getElementById('perr').style.display='block';
     document.getElementById('pinh').value='';
     pinInput('');
   }
 }
+
+/* ══════════════════════════════
+   NOTIFICATION SYSTEM
+══════════════════════════════ */
+
+function addNotification(phone, bodyText, ref){
+  var now=new Date();
+  var dateStr=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+', '+
+    now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+  var entry={phone:phone, body:bodyText, date:dateStr, ref:ref};
+  notifications.unshift(entry);
+  renderNotifList();
+  // show red badge
+  document.getElementById('notif-badge').style.display='block';
+}
+
+function renderNotifList(){
+  var list=document.getElementById('notif-list');
+  if(notifications.length===0){
+    list.innerHTML='<div class="notif-empty">لا توجد إشعارات بعد</div>';
+    return;
+  }
+  list.innerHTML=notifications.map(function(n){
+    return '<div class="notif-item">'+
+      '<div class="notif-item-phone">'+n.phone+'</div>'+
+      '<div class="notif-item-body">'+n.body+'</div>'+
+      '<div class="notif-item-date">'+n.date+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function openNotifPage(){
+  // hide badge when opened
+  document.getElementById('notif-badge').style.display='none';
+  nav('pg-notifs','جارٍ تحميل الإشعارات...',700);
+}
+
+function showInAppNotif(title, msg){
+  var now=new Date();
+  var hh=now.getHours(), mm=now.getMinutes();
+  var ampm=hh>=12?'م':'ص';
+  hh=hh%12||12;
+  var timeStr=hh+':'+String(mm).padStart(2,'0')+' '+ampm;
+  document.getElementById('notif-title').textContent=title;
+  document.getElementById('notif-msg').textContent=msg;
+  document.getElementById('notif-time').textContent=timeStr;
+  var el=document.getElementById('inapp-notif');
+  el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},5500);
+}
+
+function sendOSNotif(title, body){
+  if(!('Notification' in window))return;
+  function fire(){
+    try{
+      var n=new Notification(title,{
+        body:body, tag:'jawwal-pay-'+Date.now(),
+        requireInteraction:false, silent:false
+      });
+      n.onclick=function(){window.focus();n.close();};
+    }catch(e){console.log('notif err',e);}
+  }
+  if(Notification.permission==='granted'){ fire(); }
+  else if(Notification.permission!=='denied'){
+    Notification.requestPermission().then(function(p){
+      if(p==='granted') fire();
+    });
+  }
+}
+
+function finishTransfer(){
+  var amt=parseFloat(npVal)||0;
+  var amtStr=amt.toFixed(2);
+  var ref=String(Math.floor(Math.random()*9000000000000)+1000000000000);
+
+  // 1. Update wallet balance
+  walletBal=parseFloat((walletBal-amt).toFixed(2));
+  var balFmt=walletBal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('home-bal').innerHTML=balFmt+'<span class="ils">₪</span>';
+
+  // 2. Build receipt data
+  var now=new Date();
+  var t=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+  var d=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('rc-amt').textContent=parseFloat(amtStr).toFixed(1);
+  document.getElementById('rc-sndr').textContent='saleem omar aughali';
+  document.getElementById('rc-ref').textContent=ref;
+  document.getElementById('rc-time').textContent=t;
+  document.getElementById('rc-date').textContent=d;
+  document.getElementById('rc-val').textContent=parseFloat(amtStr).toFixed(1)+' ILS';
+  document.getElementById('rc-tot').textContent=parseFloat(amtStr).toFixed(1)+' ILS';
+  document.getElementById('rc-bnm').textContent=npPhone;
+  document.getElementById('rc-bph').textContent=npPhone;
+
+  // 3. Fill success page
+  document.getElementById('tsuc-amt').textContent=amtStr;
+  document.getElementById('tsuc-phone').textContent=npPhone;
+
+  // 4. Compose notification message (matches real app style)
+  var notifMsg='تمت حركة تحويل الأموال لمبلغ: '+amtStr+
+    ' ILS للمشترك: '+npPhone+' بنجاح! رصيدك الحالي: '+
+    balFmt+' ILS. رقم الحركة: '+ref+'.';
+
+  var osTitle='Jawwal Pay ✅ تحويل ناجح';
+  var osBody='تم تحويل '+amtStr+' ILS إلى '+npPhone+' بنجاح. الرصيد: '+balFmt+' ILS';
+
+  // 5. Add to in-app notifications list
+  addNotification('00970'+npPhone.replace(/^0/,''), notifMsg, ref);
+
+  // 6. Send OS notification to phone bar
+  sendOSNotif(osTitle, osBody);
+
+  // 7. Navigate then show in-app toast
+  var navPromise=loader('جارٍ معالجة التحويل...',1500);
+  navPromise.then(function(){
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.getElementById('pg-tsuccess').classList.add('active');
+    setTimeout(function(){
+      showInAppNotif('تحويل ناجح ✅', 'تم تحويل '+amtStr+' ILS إلى '+npPhone);
+    }, 500);
+  });
+}
+
 function buildReceipt(){
   var b=benes[curIdx];
   var amt=document.getElementById('snd-amt').value;
@@ -749,6 +1299,14 @@ function buildReceipt(){
 
 function openSheet(id){document.getElementById(id).classList.add('show');}
 function cls(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('show');}
+
+// request notification permission on load
+if('Notification' in window && Notification.permission==='default'){
+  Notification.requestPermission();
+}
+
+// init txn-cur-bal display
+document.getElementById('txn-cur-bal').textContent='3,680.00';
 
 renderBenes(benes);
 </script>
