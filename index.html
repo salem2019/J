@@ -101,13 +101,13 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
 .ibolt{font-size:18px;color:#f0a500;line-height:1}
 .ilbl{font-size:9px;font-weight:900;color:#f0a500;font-family:'Cairo',sans-serif;letter-spacing:.5px}
 .sname{font-size:11px;font-weight:700;color:var(--text);text-align:center;line-height:1.3}
-.bnav{display:flex;align-items:center;background:#fff;border-top:1px solid #edf0f5;padding:5px 0 env(safe-area-inset-bottom,8px);margin-top:auto;position:sticky;bottom:0;z-index:50}
-.ntab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:var(--sub);cursor:pointer;padding:4px 0}
-.ntab.active{color:var(--purple)}
-.ntab svg{width:19px;height:19px}
-.nqw{flex:1.2;display:flex;justify-content:center}
-.nq{width:56px;height:56px;border-radius:50%;background:var(--gray);border:3px solid #fff;box-shadow:0 -2px 12px rgba(0,0,0,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;margin-top:-15px}
-.qlbl{font-size:9px;font-weight:900;color:var(--text)}
+.bnav{display:flex;align-items:center;background:#fff;border-top:1px solid #eee;padding:6px 0 env(safe-area-inset-bottom,10px);margin-top:auto;position:sticky;bottom:0;z-index:50;box-shadow:0 -2px 12px rgba(0,0,0,0.06);}
+.ntab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:#9aa0b0;cursor:pointer;padding:4px 2px;font-family:'Cairo',sans-serif;z-index:1;}
+.ntab.active{color:var(--purple);}
+.ntab svg{width:20px;height:20px;}
+.nqw{flex:1.1;display:flex;justify-content:center;position:relative;z-index:2;}
+.nq{width:64px;height:64px;border-radius:50%;background:#fff;border:3px solid #fff;box-shadow:0 -4px 18px rgba(0,0,0,0.13),0 2px 8px rgba(0,0,0,0.07);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;margin-top:-22px;position:relative;}
+.qlbl{font-size:9px;font-weight:900;color:#1a1a2e;letter-spacing:.3px;font-family:'Cairo',sans-serif;}
 
 /* ---- PAGE TOPBAR ---- */
 .ptop{background:var(--grad-top);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -373,10 +373,12 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
 
 <!-- IN-APP NOTIFICATION -->
 <div id="inapp-notif" onclick="this.classList.remove('show')">
-  <div class="notif-icon">💸</div>
+  <div class="notif-icon">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+  </div>
   <div class="notif-body">
     <div class="notif-app">Jawwal Pay</div>
-    <div class="notif-title" id="notif-title">تحويل ناجح ✅</div>
+    <div class="notif-title" id="notif-title">تحويل ناجح</div>
     <div class="notif-msg" id="notif-msg">—</div>
   </div>
   <div class="notif-time" id="notif-time">الآن</div>
@@ -473,7 +475,7 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
     <div class="greet">مرحباً!</div>
     <div class="uname">سالم عمر أبوغالي</div>
     <div class="blbl">رصيد محفظتك</div>
-    <div class="bal" id="home-bal">3,680.00<span class="ils">₪</span></div>
+    <div class="bal" id="home-bal">680.00<span class="ils">₪</span></div>
   </div>
   <div class="aban">
     <div class="abtn" onclick="nav('pg-transfer')">
@@ -525,34 +527,79 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:#111;overflow:hi
     </div>
   </div>
   <div style="flex:1;min-height:16px;"></div>
+
+  <!-- BOTTOM NAV - exact match to original app -->
   <div class="bnav">
+    <!-- Map -->
     <div class="ntab">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
       الخريطة
     </div>
-    <div class="ntab" id="notif-tab" style="position:relative;" onclick="openNotifPage()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+
+    <!-- Notifications -->
+    <div class="ntab" id="notif-tab" onclick="openNotifPage()" style="position:relative;">
+      <div style="position:relative;width:22px;height:22px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <!-- red dot badge -->
+        <span id="notif-badge" style="
+          position:absolute;top:-3px;left:-3px;
+          width:9px;height:9px;
+          background:#ff3b30;border-radius:50%;
+          border:1.5px solid #fff;
+          display:block;
+        "></span>
+      </div>
       الإشعارات
-      <span id="notif-badge" style="position:absolute;top:2px;right:10px;width:9px;height:9px;background:#ff3b30;border-radius:50%;border:2px solid #fff;"></span>
     </div>
+
+    <!-- QUICK center bubble -->
     <div class="nqw">
       <div class="nq">
-        <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-          <rect x="1" y="1" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="4" y="4" width="5" height="5" rx="1" fill="#333"/>
-          <rect x="18" y="1" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="21" y="4" width="5" height="5" rx="1" fill="#333"/>
-          <rect x="1" y="18" width="11" height="11" rx="2" stroke="#333" stroke-width="1.8" fill="none"/><rect x="4" y="21" width="5" height="5" rx="1" fill="#333"/>
-          <rect x="18" y="18" width="5" height="5" rx="1" fill="#333"/><rect x="25" y="18" width="4" height="4" rx="1" fill="#333"/>
-          <rect x="18" y="25" width="4" height="4" rx="1" fill="#333"/><rect x="24" y="24" width="5" height="5" rx="1" fill="#333"/>
+        <!-- gold/dark QR code SVG matching original -->
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- top-left corner module -->
+          <rect x="1" y="1" width="13" height="13" rx="2.5" stroke="#1a1a2e" stroke-width="2" fill="none"/>
+          <rect x="4" y="4" width="7" height="7" rx="1" fill="#1a1a2e"/>
+          <!-- top-right corner module -->
+          <rect x="20" y="1" width="13" height="13" rx="2.5" stroke="#1a1a2e" stroke-width="2" fill="none"/>
+          <rect x="23" y="4" width="7" height="7" rx="1" fill="#1a1a2e"/>
+          <!-- bottom-left corner module -->
+          <rect x="1" y="20" width="13" height="13" rx="2.5" stroke="#1a1a2e" stroke-width="2" fill="none"/>
+          <rect x="4" y="23" width="7" height="7" rx="1" fill="#1a1a2e"/>
+          <!-- data cells (gold colored) -->
+          <rect x="20" y="20" width="4" height="4" rx="0.8" fill="#c8a000"/>
+          <rect x="25" y="20" width="4" height="4" rx="0.8" fill="#c8a000"/>
+          <rect x="30" y="20" width="3" height="4" rx="0.8" fill="#c8a000"/>
+          <rect x="20" y="25" width="4" height="4" rx="0.8" fill="#c8a000"/>
+          <rect x="25" y="25" width="4" height="4" rx="0.8" fill="#c8a000"/>
+          <rect x="30" y="25" width="3" height="4" rx="0.8" fill="#1a1a2e"/>
+          <rect x="20" y="30" width="4" height="3" rx="0.8" fill="#c8a000"/>
+          <rect x="25" y="30" width="4" height="3" rx="0.8" fill="#1a1a2e"/>
+          <rect x="30" y="30" width="3" height="3" rx="0.8" fill="#c8a000"/>
         </svg>
-        <span class="qlbl">QUICK</span>
+        <span class="qlbl" style="color:#1a1a2e;font-weight:900;font-size:9px;letter-spacing:.3px;">QUICK</span>
       </div>
     </div>
+
+    <!-- Activities -->
     <div class="ntab">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
       الأنشطة
     </div>
+
+    <!-- Home (active - purple filled) -->
     <div class="ntab active">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
       الرئيسية
     </div>
   </div>
@@ -1206,19 +1253,47 @@ function showInAppNotif(title, msg){
   setTimeout(function(){el.classList.remove('show');},5500);
 }
 
+function playNotifSound(){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    // Two-tone notification chime
+    function beep(freq,start,dur,vol){
+      var o=ctx.createOscillator();
+      var g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type='sine';
+      o.frequency.setValueAtTime(freq,ctx.currentTime+start);
+      g.gain.setValueAtTime(0,ctx.currentTime+start);
+      g.gain.linearRampToValueAtTime(vol,ctx.currentTime+start+0.01);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+start+dur);
+      o.start(ctx.currentTime+start);
+      o.stop(ctx.currentTime+start+dur);
+    }
+    beep(880,0,0.15,0.4);
+    beep(1100,0.16,0.2,0.35);
+    beep(880,0.38,0.15,0.25);
+  }catch(e){}
+}
+
 function sendOSNotif(title, body){
   if(!('Notification' in window))return;
   function fire(){
     try{
       var n=new Notification(title,{
-        body:body, tag:'jawwal-pay-'+Date.now(),
-        requireInteraction:false, silent:false
+        body:body,
+        tag:'jawwal-pay-'+Date.now(),
+        requireInteraction:false,
+        silent:false,
+        dir:'rtl',
+        lang:'ar'
       });
       n.onclick=function(){window.focus();n.close();};
-    }catch(e){console.log('notif err',e);}
+      setTimeout(function(){n.close();},8000);
+    }catch(e){console.warn('OS notif failed:',e);}
   }
-  if(Notification.permission==='granted'){ fire(); }
-  else if(Notification.permission!=='denied'){
+  if(Notification.permission==='granted'){
+    fire();
+  } else if(Notification.permission!=='denied'){
     Notification.requestPermission().then(function(p){
       if(p==='granted') fire();
     });
@@ -1264,7 +1339,8 @@ function finishTransfer(){
   // 5. Add to in-app notifications list
   addNotification('00970'+npPhone.replace(/^0/,''), notifMsg, ref);
 
-  // 6. Send OS notification to phone bar
+  // 6. Play sound + Send OS notification to phone bar
+  playNotifSound();
   sendOSNotif(osTitle, osBody);
 
   // 7. Navigate then show in-app toast
@@ -1273,36 +1349,79 @@ function finishTransfer(){
     document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
     document.getElementById('pg-tsuccess').classList.add('active');
     setTimeout(function(){
-      showInAppNotif('تحويل ناجح ✅', 'تم تحويل '+amtStr+' ILS إلى '+npPhone);
+      showInAppNotif('تحويل ناجح', 'تم تحويل '+amtStr+' ILS إلى '+npPhone);
     }, 500);
   });
 }
 
 function buildReceipt(){
   var b=benes[curIdx];
-  var amt=document.getElementById('snd-amt').value;
+  var amt=parseFloat(document.getElementById('snd-amt').value)||0;
+  var amtStr=amt.toFixed(2);
+  var ref=String(Math.floor(Math.random()*9000000000000)+1000000000000);
+
+  // 1. Deduct from wallet balance
+  walletBal=parseFloat((walletBal-amt).toFixed(2));
+  var balFmt=walletBal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('home-bal').innerHTML=balFmt+'<span class="ils">₪</span>';
+
+  // 2. Fill receipt
   var now=new Date();
   var t=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
   var d=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  var ref=String(Math.floor(Math.random()*9000000000000)+1000000000000);
-  document.getElementById('rc-amt').textContent=parseFloat(amt).toFixed(1);
+  document.getElementById('rc-amt').textContent=amt.toFixed(1);
   document.getElementById('rc-sndr').textContent='saleem omar aughali';
   document.getElementById('rc-ref').textContent=ref;
   document.getElementById('rc-time').textContent=t;
   document.getElementById('rc-date').textContent=d;
-  document.getElementById('rc-val').textContent=parseFloat(amt).toFixed(1)+' ILS';
-  document.getElementById('rc-tot').textContent=parseFloat(amt).toFixed(1)+' ILS';
+  document.getElementById('rc-val').textContent=amt.toFixed(1)+' ILS';
+  document.getElementById('rc-tot').textContent=amt.toFixed(1)+' ILS';
   document.getElementById('rc-bnm').textContent=b.name;
   document.getElementById('rc-bph').textContent=b.phone;
-  nav('pg-receipt','جارٍ معالجة التحويل...',1500);
+
+  // 3. Build notification message (same style as real app)
+  var notifMsg='تمت حركة تحويل الأموال لمبلغ: '+amtStr+
+    ' ILS للمشترك: '+b.phone+' بنجاح! رصيدك الحالي: '+
+    balFmt+' ILS. رقم الحركة: '+ref+'.';
+
+  // 4. Add to in-app notifications list
+  addNotification('00970'+b.phone.replace(/^0/,''), notifMsg, ref);
+
+  // 5. Play notification sound
+  playNotifSound();
+
+  // 6. Send OS notification
+  sendOSNotif('Jawwal Pay - تحويل ناجح',
+    'تم تحويل '+amtStr+' ILS إلى '+b.name+' ('+b.phone+'). الرصيد: '+balFmt+' ILS');
+
+  // 7. Navigate to receipt then show toast
+  var p=loader('جارٍ معالجة التحويل...',1500);
+  p.then(function(){
+    document.querySelectorAll('.page').forEach(function(pg){pg.classList.remove('active');});
+    document.getElementById('pg-receipt').classList.add('active');
+    setTimeout(function(){
+      showInAppNotif('تحويل ناجح', 'تم تحويل '+amtStr+' ILS إلى '+b.name);
+    },500);
+  });
 }
 
 function openSheet(id){document.getElementById(id).classList.add('show');}
 function cls(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('show');}
 
-// request notification permission on load
+// Request notification permission on first user interaction
+function reqNotifPerm(){
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission();
+  }
+  document.removeEventListener('touchstart', reqNotifPerm);
+  document.removeEventListener('click', reqNotifPerm);
+}
+document.addEventListener('touchstart', reqNotifPerm, {once:true});
+document.addEventListener('click', reqNotifPerm, {once:true});
+
+// Also try immediately (works in some browsers)
 if('Notification' in window && Notification.permission==='default'){
-  Notification.requestPermission();
+  Notification.requestPermission().catch(function(){});
 }
 
 // init txn-cur-bal display
